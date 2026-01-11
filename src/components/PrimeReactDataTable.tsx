@@ -9,7 +9,6 @@ export const PrimeReactDataTable = () => {
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(12);
   const [selectedRowIds, setSelectedRowIds] = useState<Set<number>>(new Set());
-  const [deselectedRowIds, setDeselectedRowIds] = useState<Set<number>>(new Set());
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayValue, setOverlayValue] = useState('');
@@ -19,18 +18,8 @@ export const PrimeReactDataTable = () => {
       const next = new Set(prev);
       if (next.has(id)) {
         next.delete(id);
-        setDeselectedRowIds(deselected => {
-          const d = new Set(deselected);
-          d.add(id);
-          return d;
-        });
       } else {
         next.add(id);
-        setDeselectedRowIds(deselected => {
-          const d = new Set(deselected);
-          d.delete(id);
-          return d;
-        });
       }
       return next;
     });
@@ -40,17 +29,6 @@ export const PrimeReactDataTable = () => {
     setSelectedRowIds(prev => {
       const next = new Set(prev);
       const allSelected = rows.length > 0 && rows.every(r => next.has(r.id));
-      setDeselectedRowIds(deselected => {
-        const d = new Set(deselected);
-        rows.forEach(r => {
-          if (allSelected) {
-            d.add(r.id);
-          } else {
-            d.delete(r.id);
-          }
-        });
-        return d;
-      });
       rows.forEach(r => {
         if (allSelected) {
           next.delete(r.id);
@@ -68,7 +46,6 @@ export const PrimeReactDataTable = () => {
     // Only select up to available rows on current page
     const ids = rows.slice(0, num).map((row) => row.id);
     setSelectedRowIds(new Set(ids));
-    setDeselectedRowIds(new Set(rows.filter(row => !ids.includes(row.id)).map(row => row.id)));
     setShowOverlay(false);
     setOverlayValue('');
   };
