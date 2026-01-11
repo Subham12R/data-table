@@ -202,7 +202,7 @@ export const PrimeReactDataTable = () => {
               <button
                 key={p}
                 onClick={() => setPage(p)}
-                className={`px-2 py-1 min-w-[2rem] border-r last:border-r-0 border-zinc-300 ${
+                className={`px-2 py-1 min-w-8 border-r last:border-r-0 border-zinc-300 ${
                   page === p ? "bg-blue-600 text-white" : "hover:bg-zinc-200"
                 }`}
                 aria-current={page === p ? "page" : undefined}
